@@ -1,4 +1,4 @@
-using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -24,24 +24,21 @@ public class Card : MonoBehaviour
         Destroy(_texture);
     }
     
-    public async UniTask<bool> LoadToImage()
+    public async UniTask<bool> LoadToImage(CancellationToken cancellationToken)
     {
-        _texture = await Request.GetTexture(_imgUrl);
-        if (_texture != null)
-        {
-            _cardImage.texture = _texture;
-            return true;
-        }
-        else
-        {
+        _texture = await Request.GetTexture(_imgUrl, cancellationToken);
+        if (_texture == null) 
             return false;
-        }
+        
+        _cardImage.texture = _texture;
+        return true;
+
     }
 
-    public async UniTask LoadAndShow()
+    public async UniTask LoadAndShow(CancellationToken cancellationToken)
     {
-        await LoadToImage();
-        await FlipToFront();
+        await LoadToImage(cancellationToken);
+        _ = FlipToFront();
     }
 
     public async UniTask FlipToFront()
@@ -63,7 +60,7 @@ public class Card : MonoBehaviour
         to.DOScaleX(1, _animTime);
     }
 
-    public void Restart()
+    private void Restart()
     {
         _backCard.DOScaleX(1, 0);
         _backCard.gameObject.SetActive(true);

@@ -1,3 +1,5 @@
+using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -6,10 +8,9 @@ public class CardManager : MonoBehaviour
 {
     [SerializeField] private Card[] _cards;
     [SerializeField] private TMP_Dropdown _loadDropdown;
-    
 
     private UniTask[] _tasks;
-    private bool _isLoaded;
+    private CancellationTokenSource _cancellation;
 
     private void Awake()
     {
@@ -18,25 +19,30 @@ public class CardManager : MonoBehaviour
 
     public async void Load()
     {
-        if (_isLoaded)
-        {
-            await RestartCards();
-        }
+        _cancellation = new CancellationTokenSource();
+        await RestartCards();
         
-        switch (_loadDropdown.value)
+        try
         {
-            //all at once
-            case 0:
-                await LoadAtOnce();
-                break;
-            //one by one
-            case 1:
-                await LoadOneByOne();
-                break;
-            //when image ready
-            case 2:
-                await LoadWhenImageReady();
-                break;
+            switch (_loadDropdown.value)
+            {
+                //all at once
+                case 0:
+                    await LoadAtOnce();
+                    break;
+                //one by one
+                case 1:
+                    await LoadOneByOne();
+                    break;
+                //when image ready
+                case 2:
+                    LoadWhenImageReady();
+                    break;
+            }
+        }
+        catch (OperationCanceledException ex)
+        {
+            Debug.LogWarning("Download was canceled");
         }
     }
 
@@ -44,7 +50,7 @@ public class CardManager : MonoBehaviour
     {
         for (var i = 0; i < _cards.Length; i++)
         {
-            _tasks[i] = _cards[i].LoadToImage();
+            _tasks[i] = _cards[i].LoadToImage(_cancellation.Token);
         }
         
         await UniTask.WhenAll(_tasks);
@@ -55,28 +61,28 @@ public class CardManager : MonoBehaviour
         }
         
         await UniTask.WhenAll(_tasks);
-        
-        _isLoaded = true;
     }
 
     private async UniTask LoadOneByOne()
     {
-        foreach (var card in _cards)
+        for (var i = 0; i < _cards.Length; i++)
         {
-            await card.LoadAndShow();
+            _tasks[i] = _cards[i].LoadToImage(_cancellation.Token);
         }
 
-        _isLoaded = true;
+        for (var i = 0; i < _cards.Length; i++)
+        {
+            await _tasks[i];
+            await _cards[i].FlipToFront();
+        }
     }
 
-    private async UniTask LoadWhenImageReady()
+    private void LoadWhenImageReady()
     {
         foreach (var card in _cards)
         {
-            await card.LoadAndShow();
+            _ = card.LoadAndShow(_cancellation.Token);
         }
-        
-        _isLoaded = true;
     }
 
     private async UniTask RestartCards()
@@ -92,7 +98,10 @@ public class CardManager : MonoBehaviour
         {
             card.Dispose();
         }
+    }
 
-        _isLoaded = false;
+    public void Cancel()
+    {
+        _cancellation.Cancel();
     }
 }

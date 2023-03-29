@@ -168,7 +168,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1484983355016426937, guid: 20e0b90853b32b94ba1d79d02856570d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 256.15973
       objectReference: {fileID: 0}
     - target: {fileID: 1484983355016426937, guid: 20e0b90853b32b94ba1d79d02856570d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -457,7 +457,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 391274736}
         m_TargetAssemblyTypeName: CardManager, Assembly-CSharp
-        m_MethodName: Load
+        m_MethodName: Cancel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1148,7 +1148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1484983355016426937, guid: 20e0b90853b32b94ba1d79d02856570d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 256.15973
       objectReference: {fileID: 0}
     - target: {fileID: 1484983355016426937, guid: 20e0b90853b32b94ba1d79d02856570d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1590,7 +1590,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1484983355016426937, guid: 20e0b90853b32b94ba1d79d02856570d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 256.15973
       objectReference: {fileID: 0}
     - target: {fileID: 1484983355016426937, guid: 20e0b90853b32b94ba1d79d02856570d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2042,7 +2042,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1484983355016426937, guid: 20e0b90853b32b94ba1d79d02856570d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 256.15973
       objectReference: {fileID: 0}
     - target: {fileID: 1484983355016426937, guid: 20e0b90853b32b94ba1d79d02856570d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2348,7 +2348,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Load
+  m_text: Cancel
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2790,7 +2790,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1484983355016426937, guid: 20e0b90853b32b94ba1d79d02856570d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 256.15973
       objectReference: {fileID: 0}
     - target: {fileID: 1484983355016426937, guid: 20e0b90853b32b94ba1d79d02856570d, type: 3}
       propertyPath: m_LocalPosition.x
